@@ -1,4 +1,4 @@
-#Bazarek ASP.NET wege-online-shop
+Bazarek ASP.NET wege-online-shop
 Aplikcja webowa, napisana w technologii ASP.NET. Zaimplementowane zostały podstawowe funkcjonalności sklepu internetowego. 
 Z poziomu panelu administratora można modyfikować listę produktów oraz bieżące stany magazynowe. 
 Interfejs użytkownika umożliwia dodawanie produktów do koszyka, oraz przejście przez mechanizm checkoutu. 
