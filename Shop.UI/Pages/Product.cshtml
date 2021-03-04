@@ -1,0 +1,110 @@
+﻿@page "{name}"
+@model ProductModel
+@{
+}
+
+<div class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-6">
+                    <figure class="image">
+                        <img src="~/images/item.jpg" />
+                    </figure>
+                </div>
+                <div class="column is-6">
+                    <section class="content">
+                        <p class="title">@Model.Product.Name</p>
+                        <p class="subtitle">@Model.Product.Description</p>
+                        <p>
+                            Rozważmy organiczne rolnictwo podobnie jak praktyki medycyny alternatywnej. Ta wykorzystuje różne substancje i składniki, aby uzdrawiać. I ma w tym doświadczenie sprzed wieków. Medycyna ta była uzależniona od naturalnego składu gleby i ziemi. Dzięki temu „składniki” leków były wydajne. Ciało, jak ziemia, jest ekosystemem zależnym od niektórych elementów, które pozwalają mu się rozwijać i przetrwać. Usunięcie tych elementów przeszkadza i wpływa na przeżywalność ekosystemu.
+                        </p>
+                        <footer>
+                            <form method="post">
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Jednostka</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <div class="select is-fullwidth">
+                                                    <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)">
+
+                                                        @foreach (var s in Model.Product.Stock)
+                                                        {
+                                                            bool disabled = s.Qty <= 0;
+
+                                                            <option value="1" disabled="@disabled">@s.Description</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Ilość</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <input class="input" asp-for="CartViewModel.Qty" value="1" />
+                                            </div>
+                                            @foreach (var stock in Model.Product.Stock)
+                                            {
+                                                if (stock.Qty <= 10)
+                                                {
+                                                    <p class="help is-danger is-hidden low-stock" id="low-stock-@stock.Id">
+                                                        @(stock.Qty == 0 ? "Out Stock" : $"{stock.Qty} Left")
+                                                    </p>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <button class="button is-success" type="submit">Zatwierdź</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var toggleStock = function (e) {
+        console.log(e);
+
+        var stockToHide = document.querySelectorAll('.low-stock')
+
+        stockToHide.forEach(function (e) {
+            e.classList.add('is-hidden');
+        })
+
+        showLowStock(e.target.value);
+    }
+
+    var showLowStock = function (id) {
+        var stockToShow = document.getElementById('low-stock-' + id);
+
+        if (stockToShow !== null && stockToShow !== undefined)
+            stockToShow.classList.remove('is-hidden');
+    }
+
+    showLowStock(document.getElementById('CartViewModel_StockId').value);
+</script>
